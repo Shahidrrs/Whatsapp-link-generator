@@ -1,188 +1,105 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>WhatsApp Link Generator</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WhatsApp Message Link Generator</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 2rem;
-      background: #f9f9f9;
-      color: #222;
+      background: #e5ddd5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      justify-content: center;
     }
-    h1 {
+
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h2 {
       text-align: center;
-      margin-bottom: 1rem;
+      color: #075e54;
     }
+
     label {
       display: block;
-      margin: 1rem 0 0.3rem;
+      margin-top: 15px;
       font-weight: bold;
     }
+
     input, textarea {
       width: 100%;
-      padding: 0.5rem;
-      font-size: 1rem;
+      padding: 10px;
+      margin-top: 5px;
       border-radius: 5px;
       border: 1px solid #ccc;
+      box-sizing: border-box;
     }
+
     button {
-      margin-top: 1rem;
-      background-color: #25d366;
+      margin-top: 20px;
+      width: 100%;
+      background-color: #25D366;
       color: white;
+      padding: 10px;
       border: none;
-      padding: 0.7rem 1.5rem;
-      font-size: 1.1rem;
       border-radius: 5px;
+      font-size: 16px;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #1ebe57;
+
+    #result {
+      margin-top: 20px;
+      word-break: break-word;
     }
-    .result {
-      margin-top: 1.5rem;
-      padding: 1rem;
-      background: white;
-      border-radius: 6px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .link-output {
-      font-size: 1.1rem;
-      color: #0066cc;
-      word-break: break-all;
-    }
-    .copy-btn {
-      margin-top: 0.5rem;
-      background: #0066cc;
-      color: white;
-      border: none;
-      padding: 0.4rem 1rem;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .copy-btn:hover {
-      background: #004999;
-    }
-    #qrcode {
-      margin-top: 1rem;
-      text-align: center;
-    }
-    footer {
-      margin-top: 3rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #555;
-    }
-    @media(max-width: 480px) {
-      body {
-        margin: 1rem;
-      }
+
+    a {
+      color: #128C7E;
+      text-decoration: none;
+      font-weight: bold;
     }
   </style>
-
-  <!-- AdSense Script -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8748929875918340"
-    crossorigin="anonymous"></script>
 </head>
 <body>
+  <div class="container">
+    <h2>WhatsApp Link Generator</h2>
+    <label for="phone">Phone Number (with country code)</label>
+    <input type="text" id="phone" placeholder="e.g. 911234567890" />
 
-<h1>WhatsApp Link Generator</h1>
+    <label for="message">Message</label>
+    <textarea id="message" rows="4" placeholder="Type your message here..."></textarea>
 
-<label for="phone">Phone Number (with country code, no + or 00)</label>
-<input type="text" id="phone" placeholder="e.g. 919876543210" />
+    <button onclick="generateLink()">Generate WhatsApp Link</button>
 
-<label for="message">Message to Pre-fill</label>
-<textarea id="message" rows="3" placeholder="Type your message here..."></textarea>
+    <div id="result"></div>
+  </div>
 
-<button id="generateBtn">Generate Link</button>
-
-<div class="result" id="result" style="display:none;">
-  <div><strong>Your WhatsApp Link:</strong></div>
-  <a href="#" target="_blank" rel="noopener noreferrer" id="whatsappLink" class="link-output"></a>
-  <br />
-  <button class="copy-btn" id="copyBtn">Copy Link</button>
-  <div id="qrcode"></div>
-</div>
-
-<!-- Ad Unit (replace slot with your real ad slot) -->
-<div style="margin-top: 2rem; text-align: center;">
-  <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-8748929875918340"
-       data-ad-slot="1234567890"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
+    function generateLink() {
+      const phone = document.getElementById("phone").value.trim();
+      const message = encodeURIComponent(document.getElementById("message").value.trim());
+
+      if (!phone) {
+        alert("Please enter a phone number.");
+        return;
+      }
+
+      const link = `https://wa.me/${phone}?text=${message}`;
+      document.getElementById("result").innerHTML = `
+        <p>Click the link below to open in WhatsApp:</p>
+        <a href="${link}" target="_blank">${link}</a>
+      `;
+    }
   </script>
-</div>
-
-<footer>
-  Made by You | Free to use
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.1/build/qrcode.min.js"></script>
-<script>
-  const phoneInput = document.getElementById('phone');
-  const messageInput = document.getElementById('message');
-  const generateBtn = document.getElementById('generateBtn');
-  const resultDiv = document.getElementById('result');
-  const whatsappLink = document.getElementById('whatsappLink');
-  const copyBtn = document.getElementById('copyBtn');
-  const qrCodeDiv = document.getElementById('qrcode');
-
-  function validatePhone(phone) {
-    return /^\d{8,15}$/.test(phone);
-  }
-
-  generateBtn.addEventListener('click', () => {
-    const phone = phoneInput.value.trim();
-    let message = messageInput.value.trim();
-
-    if (!validatePhone(phone)) {
-      alert('Please enter a valid phone number (digits only, 8 to 15 characters).');
-      phoneInput.focus();
-      return;
-    }
-
-    if (!message) {
-      message = "Hello";
-    }
-
-    const encodedMessage = encodeURIComponent(message);
-    const link = `https://wa.me/${phone}?text=${encodedMessage}`;
-
-    whatsappLink.href = link;
-    whatsappLink.textContent = link;
-    whatsappLink.target = "_blank";
-    resultDiv.style.display = 'block';
-
-    qrCodeDiv.innerHTML = '';
-    QRCode.toCanvas(link, { width: 150 }, function (error, canvas) {
-      if (error) console.error(error);
-      qrCodeDiv.appendChild(canvas);
-    });
-  });
-
-  messageInput.addEventListener("keydown", function (e) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      generateBtn.click();
-    }
-  });
-
-  copyBtn.addEventListener('click', () => {
-    const link = whatsappLink.textContent;
-    navigator.clipboard.writeText(link).then(() => {
-      copyBtn.textContent = "Copied!";
-      setTimeout(() => copyBtn.textContent = "Copy Link", 2000);
-    }, () => {
-      alert('Failed to copy!');
-    });
-  });
-</script>
-
 </body>
 </html>
-    
